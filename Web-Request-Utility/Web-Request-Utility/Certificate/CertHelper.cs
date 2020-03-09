@@ -14,7 +14,7 @@ namespace Web_Request_Utility.Certificate
     public class CertHelper
     {
 
-        public static X509Certificate2 LoadCertificate(string path, string password)
+        public static X509Certificate2 LoadCertificate(string path, string password = null)
         {
             byte[] rawData = FileHelper.ReadFile(path);
             if (rawData == null || (uint) rawData.Length <= 0U)

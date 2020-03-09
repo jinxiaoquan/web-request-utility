@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
@@ -37,6 +38,32 @@ namespace Web_Request_Utility.JWT
                 return new SHA512CryptoServiceProvider().ComputeHash(bytes);
             }
             return null;
+        }
+        static HashAlgorithm GetHashAlgorithm(string algorithm)
+        {
+            HashAlgorithm hashAlgorithm;
+
+            if (algorithm == ("SHA1"))
+            {
+                hashAlgorithm = new SHA1CryptoServiceProvider();
+            }
+            else if (algorithm == ("SHA256"))
+            {
+                hashAlgorithm = new SHA256CryptoServiceProvider();
+            }
+            else if (algorithm == ("SHA384"))
+            {
+                hashAlgorithm = new SHA384CryptoServiceProvider();
+            }
+            else if (algorithm == ("SHA512"))
+            {
+                hashAlgorithm = new SHA512CryptoServiceProvider();
+            }
+            else
+            {
+                hashAlgorithm = new SHA1CryptoServiceProvider();
+            }
+            return hashAlgorithm;
         }
 
         static CngAlgorithm ConvertAlg(string alg)
@@ -90,6 +117,17 @@ namespace Web_Request_Utility.JWT
             {
                 return ex.ToString();
             }
+        }
+
+        public static bool Verify(string signStr, X509Certificate2 cert, string alg = "SHA1")
+        {
+            string[] signStrArray = signStr.Split('.');
+            var plainText = Encoding.UTF8.GetBytes($"{signStrArray[0]}.{signStrArray[1]}");
+            var signData = Convert.FromBase64String(signStrArray[2]);
+            var rsaProviderPublic = (RSACryptoServiceProvider) cert.PublicKey.Key;
+            var hashAlg = GetHashAlgorithm(alg);
+            var plainTextHash = hashAlg.ComputeHash(plainText);
+            return rsaProviderPublic.VerifyHash(plainTextHash, CryptoConfig.MapNameToOID(alg), signData);
         }
 
         private static string GetVerifyString(string alg, string iss)
