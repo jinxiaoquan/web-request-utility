@@ -100,7 +100,7 @@ namespace Web_Request_Utility.JWT
                 {
                     //使用 System.Security.Cryptography.Cng.dll 给Cng 签名
                     //var priKey = cert.GetRSAPrivateKey();
-                    //var sign1 = priKey.SignHash(rgbHash, HashAlgorithmName.SHA512, RSASignaturePadding.Pss);
+                    //sign = priKey.SignHash(rgbHash, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
                     //使用 Security.Cryptography.dll 给Cng 签名
                     var cngPrivateKey = cert.GetCngPrivateKey();
