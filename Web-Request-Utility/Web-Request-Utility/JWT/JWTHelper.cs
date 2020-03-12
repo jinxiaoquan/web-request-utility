@@ -95,14 +95,13 @@ namespace Web_Request_Utility.JWT
                 byte[] bytes = Encoding.UTF8.GetBytes(verifyString);
                 var rgbHash = ComputeHash(alg, bytes);
                 byte[] sign;
+                //使用 System.Security.Cryptography.Cng.dll 给Cng 签名
+                //var priKey = cert.GetRSAPrivateKey();
+                //sign = priKey.SignHash(rgbHash, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
 
+                //使用 Security.Cryptography.dll 给Cng 签名
                 if (cert.HasCngKey())
                 {
-                    //使用 System.Security.Cryptography.Cng.dll 给Cng 签名
-                    //var priKey = cert.GetRSAPrivateKey();
-                    //sign = priKey.SignHash(rgbHash, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-
-                    //使用 Security.Cryptography.dll 给Cng 签名
                     var cngPrivateKey = cert.GetCngPrivateKey();
                     var rsaCng = new RSACng(cngPrivateKey);
                     sign = rsaCng.SignHash(rgbHash, ConvertAlg(alg));

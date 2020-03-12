@@ -17,7 +17,7 @@ namespace Web_Request_Utility.String
             foreach (char c in chArray)
             {
                 secureString.AppendChar(c);
-            }
+            } 
             return secureString;
         }
 

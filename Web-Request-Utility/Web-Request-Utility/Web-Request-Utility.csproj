@@ -54,6 +54,9 @@
   <ItemGroup>
     <Compile Include="Certificate\CertHelper.cs" />
     <Compile Include="File\FileHelper.cs" />
+    <Compile Include="Hash\HashHelper.cs" />
+    <Compile Include="HttpRequest\Get.cs" />
+    <Compile Include="HttpRequest\Post.cs" />
     <Compile Include="JWT\JWTHelper.cs" />
     <Compile Include="JWT\Object\Header.cs" />
     <Compile Include="JWT\Object\Payload.cs" />
@@ -67,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Authentication\" />
-    <Folder Include="Hash\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
