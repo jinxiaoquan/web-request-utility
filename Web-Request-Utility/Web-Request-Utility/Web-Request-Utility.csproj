@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Certificate\CertHelper.cs" />
+    <Compile Include="ConvertExtensions\ByteArrayExtensions.cs" />
+    <Compile Include="ConvertExtensions\ObjectExtensions.cs" />
+    <Compile Include="ConvertExtensions\StreamExtensions.cs" />
     <Compile Include="File\FileHelper.cs" />
     <Compile Include="Hash\HashHelper.cs" />
     <Compile Include="HttpRequest\Get.cs" />
@@ -60,9 +63,12 @@
     <Compile Include="JWT\JWTHelper.cs" />
     <Compile Include="JWT\Object\Header.cs" />
     <Compile Include="JWT\Object\Payload.cs" />
+    <Compile Include="Locker\LockExtension.cs" />
+    <Compile Include="Locker\LockWrapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="String\StringHelper.cs" />
+    <Compile Include="ConvertExtensions\StringExtensions.cs" />
+    <Compile Include="Random\RandomHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

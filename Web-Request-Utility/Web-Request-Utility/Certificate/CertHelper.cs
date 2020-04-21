@@ -6,8 +6,8 @@ using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using Web_Request_Utility.ConvertExtensions;
 using Web_Request_Utility.File;
-using Web_Request_Utility.String;
 
 namespace Web_Request_Utility.Certificate
 {
@@ -26,7 +26,7 @@ namespace Web_Request_Utility.Certificate
             {
                 return new X509Certificate2(rawData);
             }
-            return new X509Certificate2(rawData, StringHelper.ConvertToSecureString(password), X509KeyStorageFlags.DefaultKeySet);
+            return new X509Certificate2(rawData, password.ConvertToSecureString(), X509KeyStorageFlags.DefaultKeySet);
         }
 
     }

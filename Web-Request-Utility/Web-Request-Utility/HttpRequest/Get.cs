@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Web_Request_Utility.ConvertExtensions;
 
 namespace Web_Request_Utility.HttpRequest
 {
@@ -44,5 +46,42 @@ namespace Web_Request_Utility.HttpRequest
             Console.ReadLine();
         }
 
+        public static void Run2(string method, string url, string body, string accessToken)
+        {
+            var request = WebRequest.Create(url) as HttpWebRequest;
+            request.Headers.Add("Authorization", $"Bearer {accessToken}");
+            request.Method = method;
+            request.Proxy = new WebProxy("address", true);
+            request.Proxy.Credentials = new NetworkCredential
+            {
+                UserName = "user",
+                Password = "pwd"
+            };
+            if (!string.IsNullOrEmpty(body))
+            {
+                using (var requestStream = request.GetRequestStream())
+                {
+                    var buffer = Encoding.UTF8.GetBytes(body);
+                    requestStream.Write(buffer, 0, buffer.Length);
+                }
+            }
+
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response.StatusCode == HttpStatusCode.OK || response.StatusCode == HttpStatusCode.Created || response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    using (var stream = response.GetResponseStream())
+                    {
+                        Stream deCompressedStream = stream;
+                        if (response.ContentEncoding == "gzip")
+                        {
+                            deCompressedStream = stream.GetDecompressGZip();
+                        }
+                        var resultString = new StreamReader(deCompressedStream).ReadToEnd();
+                        
+                    }
+                }
+            }
+        }
     }
 }
